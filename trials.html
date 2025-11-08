@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Best Friend</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff6b9d;
+            text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+            transform: translateZ(30px);
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e0c3fc;
+            transform: translateZ(20px);
+        }
+
+        .signature {
+            font-size: 1.8rem;
+            margin-top: 30px;
+            color: #a78bfa;
+            font-style: italic;
+        }
+
+        /* 3D Flowers */
+        .flower {
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .petal {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(to bottom, #ff6b9d, #c44569);
+            border-radius: 50% 50% 50% 50%;
+            transform-origin: bottom center;
+            opacity: 0.9;
+            box-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
+        }
+
+        .center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ffd700;
+            border-radius: 50%;
+            transform: translateZ(5px);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+
+        .stem {
+            position: absolute;
+            width: 5px;
+            height: 80px;
+            background: linear-gradient(to bottom, #7bed9f, #2ed573);
+            top: 50px;
+            left: 12.5px;
+            transform: translateZ(-5px);
+        }
+
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            background: #7bed9f;
+            border-radius: 50% 0 50% 50%;
+            transform-origin: left center;
+            top: 70px;
+            left: 17px;
+            transform: translateZ(-3px) rotateZ(-30deg);
+        }
+
+        /* 3D Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            transform-style: preserve-3d;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotateX(5deg) rotateY(5deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(-5deg) rotateY(-5deg);
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: translateZ(0) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translateZ(50px) scale(1.2);
+            }
+        }
+
+        @keyframes flowerFloat {
+            0%, 100% {
+                transform: translateY(0) rotateY(0);
+            }
+            25% {
+                transform: translateY(-10px) rotateY(90deg);
+            }
+            50% {
+                transform: translateY(-5px) rotateY(180deg);
+            }
+            75% {
+                transform: translateY(-15px) rotateY(270deg);
+            }
+        }
+
+        @keyframes petalRotate {
+            0% {
+                transform: rotateZ(0deg) translateZ(10px);
+            }
+            100% {
+                transform: rotateZ(360deg) translateZ(10px);
+            }
+        }
+
+        /* Hearts */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff6b9d;
+            transform: rotate(45deg);
+            opacity: 0.8;
+            box-shadow: 0 0 10px rgba(255, 107, 157, 0.7);
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: #ff6b9d;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: rotate(45deg) translateY(-20px) scale(1.2);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message-box">
+            <h1>To My Best Friend</h1>
+            <p>Every day with you is a beautiful adventure. You light up my world in ways I never thought possible.</p>
+            <p>I cherish our laughter, our deep conversations, and all the memories we've created together.</p>
+            <p>You mean more to me than words can express, and I'm so grateful to have you in my life.</p>
+            <p class="signature">With all my love ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        // Create 3D flowers
+        function createFlowers() {
+            const colors = [
+                { petal: '#ff6b9d', center: '#ffd700' },
+                { petal: '#a78bfa', center: '#ffd700' },
+                { petal: '#ff9ff3', center: '#ffd700' },
+                { petal: '#f368e0', center: '#ffd700' }
+            ];
+            
+            for (let i = 0; i < 12; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                // Random size
+                const scale = Math.random() * 0.8 + 0.5;
+                
+                // Random color
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                flower.style.left = `${left}%`;
+                flower.style.top = `${top}%`;
+                flower.style.transform = `scale(${scale})`;
+                flower.style.animation = `flowerFloat ${15 + Math.random() * 10}s infinite ease-in-out`;
+                flower.style.animationDelay = `${Math.random() * 5}s`;
+                
+                // Create petals
+                for (let j = 0; j < 8; j++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    petal.style.transform = `rotateZ(${j * 45}deg) translateZ(10px)`;
+                    petal.style.background = `linear-gradient(to bottom, ${color.petal}, ${darkenColor(color.petal, 20)})`;
+                    petal.style.animation = `petalRotate ${20 + Math.random() * 10}s infinite linear`;
+                    petal.style.animationDelay = `${Math.random() * 2}s`;
+                    flower.appendChild(petal);
+                }
+                
+                // Create center
+                const center = document.createElement('div');
+                center.className = 'center';
+                center.style.background = color.center;
+                flower.appendChild(center);
+                
+                // Create stem
+                const stem = document.createElement('div');
+                stem.className = 'stem';
+                flower.appendChild(stem);
+                
+                // Create leaves
+                const leaf1 = document.createElement('div');
+                leaf1.className = 'leaf';
+                flower.appendChild(leaf1);
+                
+                const leaf2 = document.createElement('div');
+                leaf2.className = 'leaf';
+                leaf2.style.transform = 'translateZ(-3px) rotateZ(30deg) scaleX(-1)';
+                leaf2.style.left = '5px';
+                flower.appendChild(leaf2);
+                
+                document.body.appendChild(flower);
+            }
+        }
+        
+        // Create 3D sparkles
+        function createSparkles() {
+            for (let i = 0; i < 50; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const z = Math.random() * 100;
+                
+                // Random size
+                const size = Math.random() * 5 + 3;
+                
+                // Random animation
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 5;
+                
+                sparkle.style.left = `${left}%`;
+                sparkle.style.top = `${top}%`;
+                sparkle.style.width = `${size}px`;
+                sparkle.style.height = `${size}px`;
+                sparkle.style.animation = `sparkle ${duration}s ${delay}s infinite ease-in-out`;
+                sparkle.style.transform = `translateZ(${z}px)`;
+                
+                document.body.appendChild(sparkle);
+            }
+        }
+        
+        // Create floating hearts
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                // Random size
+                const size = Math.random() * 15 + 10;
+                
+                // Random animation
+                const duration = Math.random() * 5 + 3;
+                const delay = Math.random() * 5;
+                
+                heart.style.left = `${left}%`;
+                heart.style.top = `${top}%`;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.animation = `heartFloat ${duration}s ${delay}s infinite ease-in-out`;
+                
+                document.body.appendChild(heart);
+            }
+        }
+        
+        // Helper function to darken colors
+        function darkenColor(color, percent) {
+            const num = parseInt(color.replace("#", ""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) - amt;
+            const G = (num >> 8 & 0x00FF) - amt;
+            const B = (num & 0x0000FF) - amt;
+            return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        }
+        
+        // Initialize everything when page loads
+        window.onload = function() {
+            createFlowers();
+            createSparkles();
+            createHearts();
+        };
+    </script>
+</body>
+</html>
