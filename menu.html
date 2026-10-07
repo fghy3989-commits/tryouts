@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chada Beauty – Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #d63b8f;
+    --pink-dark: #a8206b;
+    --pink-soft: #fde8f3;
+    --white: #fff;
+    --text: #4a2b3d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--text);
+    background: linear-gradient(160deg, #ffd6ea, #fff 45%, #ffc2e0);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  #glitter { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+
+  header { text-align: center; padding: 40px 16px 10px; position: relative; z-index: 1; }
+  header h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(3rem, 12vw, 5rem);
+    font-weight: 400;
+    background: linear-gradient(90deg, var(--pink-dark), #ff7ac0, var(--pink-dark), #ff7ac0);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    animation: shine 4s linear infinite;
+  }
+  header p { letter-spacing: 0.3em; font-size: 1.3rem; color: var(--pink); font-weight: 600; }
+  @keyframes shine { to { background-position: 200% center; } }
+
+  nav {
+    position: relative; z-index: 1;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+    padding: 20px 12px;
+  }
+  nav button {
+    font: inherit; font-weight: 600;
+    border: 2px solid var(--pink);
+    background: var(--white);
+    color: var(--pink);
+    padding: 8px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  nav button:hover { background: var(--pink-soft); }
+  nav button.active {
+    background: linear-gradient(135deg, #ff7ac0, var(--pink));
+    color: var(--white);
+    box-shadow: 0 0 14px rgba(214, 59, 143, 0.5);
+  }
+  nav button:focus-visible { outline: 3px solid var(--pink-dark); outline-offset: 2px; }
+
+  main { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 16px 60px; }
+  section {
+    background: rgba(255, 255, 255, 0.92);
+    border: 2px solid #ffc2e0;
+    border-radius: 22px;
+    padding: 22px 26px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(214, 59, 143, 0.15);
+  }
+  section.hidden { display: none; }
+  section h2 {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    font-size: 2.4rem;
+    color: var(--pink);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  ul { list-style: none; }
+  li {
+    display: flex; align-items: baseline; gap: 8px;
+    padding: 7px 0;
+  }
+  li .dots { flex: 1; border-bottom: 2px dotted #f2a5cf; transform: translateY(-4px); }
+  li .price { font-weight: 600; color: var(--pink-dark); white-space: nowrap; }
+  li .from { font-size: 0.9rem; font-weight: 500; opacity: 0.8; }
+
+  footer { position: relative; z-index: 1; text-align: center; padding-bottom: 30px; color: var(--pink); }
+</style>
+</head>
+<body>
+<canvas id="glitter"></canvas>
+
+<header>
+  <h1>Chada</h1>
+  <p>BEAUTY</p>
+</header>
+
+<nav id="tabs"></nav>
+<main id="menu"></main>
+<footer>✨ Chada Beauty ✨</footer>
+
+<script>
+  // Edit the services and prices here. fromPrice: true shows "à partir de".
+  const menu = {
+    "Coiffure": [
+      ["Brushing simple", 15, true], ["Brushing bouclé", 20, true], ["Shampoing", 5],
+      ["Babyliss", 50, true], ["Wavy", 70, true], ["Coupe pointe", 10],
+      ["Coupe générale", 30, true], ["Coloration totale", 100], ["Coloration racines", 40],
+      ["Mèches", 150], ["Balayage", 250], ["Soin nourrissant", 50],
+      ["Lissage protéine", 500, true], ["Bain protéine", 200, true]
+    ],
+    "Épilation": [
+      ["Duvet", 10], ["Sourcils", 20], ["Menton", 10], ["Duvet + Sourcils", 25],
+      ["Menton + narines", 15], ["Visage cire", 40], ["Visage fil", 30], ["Aisselles", 20],
+      ["Demi bras", 30], ["Bras complets", 50], ["Demi jambes", 40], ["Jambes complètes", 70],
+      ["Bord maillot", 30], ["Maillot intégral", 50], ["Maillot wax", 80],
+      ["Dos", 30], ["Ventre", 30], ["Épilation complète", 150]
+    ],
+    "Maquillage": [
+      ["Maquillage du jour", 50], ["Maquillage soir", 100], ["Maquillage mariage", 500, true],
+      ["Rehaussement de cils", 150], ["Rehaussement sourcils", 150], ["Pose faux cils", 50]
+    ],
+    "Onglerie": [
+      ["Vernis normal", 20], ["Vernis permanent", 50], ["Vernis BIAB", 80],
+      ["Manucure normale", 50], ["Manucure spa", 60], ["Pédicure normale", 80], ["Pédicure spa", 100],
+      ["Faux ongles + vernis normal", 70], ["Faux ongles + vernis permanent", 100],
+      ["Dépose vernis permanent", 20], ["Dépose gel", 50], ["Design", 20]
+    ],
+    "Massage": [["Massage relaxant", 100], ["Massage anti-stress", 130]],
+    "Soins du visage": [["Modelage", 40], ["Soin éclat", 100]]
+  };
+
+  const tabs = document.getElementById("tabs");
+  const main = document.getElementById("menu");
+
+  function show(name) {
+    document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.name === name));
+    document.querySelectorAll("main section").forEach(s => s.classList.toggle("hidden", name !== "Tout" && s.dataset.name !== name));
+  }
+
+  ["Tout", ...Object.keys(menu)].forEach(name => {
+    const b = document.createElement("button");
+    b.textContent = name;
+    b.dataset.name = name;
+    b.onclick = () => show(name);
+    tabs.appendChild(b);
+  });
+
+  for (const [name, items] of Object.entries(menu)) {
+    const sec = document.createElement("section");
+    sec.dataset.name = name;
+    sec.innerHTML = `<h2>${name}</h2><ul>` + items.map(([label, price, from]) =>
+      `<li><span>${label}</span><span class="dots"></span>
+       <span class="price">${from ? '<span class="from">à partir de</span> ' : ''}${price} DH</span></li>`
+    ).join("") + "</ul>";
+    main.appendChild(sec);
+  }
+  show("Tout");
+
+  // Glitter effect
+  const canvas = document.getElementById("glitter");
+  const ctx = canvas.getContext("2d");
+  let sparks = [];
+  function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+  resize(); addEventListener("resize", resize);
+
+  const colors = ["#ff7ac0", "#ffffff", "#ffd700", "#ff4fa8", "#ffc2e0"];
+  for (let i = 0; i < 70; i++) {
+    sparks.push({
+      x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+      r: Math.random() * 2.5 + 0.8, phase: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.03 + 0.01, vy: Math.random() * 0.3 + 0.1,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    sparks.forEach(s => {
+      s.phase += s.speed;
+      if (!reduce) { s.y += s.vy; if (s.y > canvas.height) { s.y = -5; s.x = Math.random() * canvas.width; } }
+      const a = (Math.sin(s.phase) + 1) / 2;
+      ctx.globalAlpha = a;
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      // 4-point star
+      const r = s.r * (1 + a);
+      ctx.moveTo(s.x, s.y - r * 2); ctx.lineTo(s.x + r * 0.5, s.y - r * 0.5);
+      ctx.lineTo(s.x + r * 2, s.y); ctx.lineTo(s.x + r * 0.5, s.y + r * 0.5);
+      ctx.lineTo(s.x, s.y + r * 2); ctx.lineTo(s.x - r * 0.5, s.y + r * 0.5);
+      ctx.lineTo(s.x - r * 2, s.y); ctx.lineTo(s.x - r * 0.5, s.y - r * 0.5);
+      ctx.closePath(); ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>
+</body>
+</html>
