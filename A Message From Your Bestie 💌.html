@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Message From Your Bestie 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:    #FF85C2;
+    --pink-soft: #FFB6D9;
+    --purple:  #C084FC;
+    --purple-soft: #E9D5FF;
+    --blue:    #93C5FD;
+    --blue-soft: #DBEAFE;
+    --white:   #FFFAFD;
+    --text:    #5B2A8A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--purple-soft) 0%, var(--blue-soft) 40%, var(--pink-soft) 100%);
+    font-family: 'Nunito', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    overflow-x: hidden;
+  }
+
+  /* Floating petals */
+  .petal {
+    position: fixed;
+    font-size: 1.6rem;
+    animation: float linear infinite;
+    pointer-events: none;
+    opacity: 0.7;
+    z-index: 0;
+  }
+  @keyframes float {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.7; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Card */
+  .card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(192,132,252,0.3);
+    border-radius: 2.5rem;
+    padding: 2.8rem 2.5rem 2.2rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(192,132,252,0.18);
+  }
+
+  .card-emoji {
+    font-size: 3rem;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+    display: block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    background: linear-gradient(90deg, var(--pink), var(--purple), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* Question box */
+  .question-box {
+    background: linear-gradient(135deg, #fce7f3, #ede9fe, #dbeafe);
+    border-radius: 1.5rem;
+    padding: 1.4rem 1.2rem;
+    margin-bottom: 1.6rem;
+    border: 1.5px solid rgba(192,132,252,0.25);
+  }
+  .question-box p {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+  }
+  .btn {
+    padding: 0.7rem 2rem;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .btn:hover  { transform: scale(1.07); box-shadow: 0 4px 18px rgba(0,0,0,0.13); }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(192,132,252,0.35);
+  }
+  .btn-no {
+    background: linear-gradient(135deg, var(--blue), #a5f3fc);
+    color: var(--text);
+    box-shadow: 0 4px 14px rgba(147,197,253,0.35);
+  }
+
+  /* Hidden message */
+  .bestie-msg {
+    display: none;
+    animation: popIn 0.45s cubic-bezier(.34,1.56,.64,1);
+    background: linear-gradient(135deg, #fdf4ff, #eff6ff);
+    border-radius: 1.5rem;
+    padding: 1.3rem 1.2rem;
+    margin-top: 0.4rem;
+    border: 1.5px solid rgba(192,132,252,0.3);
+  }
+  .bestie-msg.show { display: block; }
+  @keyframes popIn {
+    0%   { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .bestie-msg p {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .bestie-msg .big-hearts {
+    font-size: 2rem;
+    display: block;
+    margin-top: 0.6rem;
+  }
+
+  /* No response */
+  .no-msg {
+    display: none;
+    animation: popIn 0.45s cubic-bezier(.34,1.56,.64,1);
+    margin-top: 0.4rem;
+  }
+  .no-msg.show { display: block; }
+  .no-msg p { font-size: 1rem; font-weight: 700; color: var(--purple); }
+
+  .footer-hearts {
+    margin-top: 1.4rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.2rem;
+    opacity: 0.65;
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating petals/hearts -->
+<script>
+  const items = ['🌸','💜','💗','🩵','🌷','💕','🫧','🌺','💙','🩷'];
+  for (let i = 0; i < 18; i++) {
+    const el = document.createElement('span');
+    el.className = 'petal';
+    el.textContent = items[Math.floor(Math.random() * items.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (1.2 + Math.random() * 1.4) + 'rem';
+    el.style.animationDuration = (7 + Math.random() * 9) + 's';
+    el.style.animationDelay = (Math.random() * 10) + 's';
+    document.body.appendChild(el);
+  }
+</script>
+
+<div class="card">
+  <span class="card-emoji">🌸💌🌷</span>
+  <h1>Hey sunshine, you!</h1>
+  <p class="subtitle">A little something just for you ✨</p>
+
+  <div class="question-box">
+    <p>💌 Do you wanna hear something from your bestie? 💌</p>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-yes" onclick="showYes()">Yes! 💗</button>
+    <button class="btn btn-no"  onclick="showNo()">Nope 🩵</button>
+  </div>
+
+  <div class="bestie-msg" id="yesMsg">
+    <p>
+      Okay listen up because I mean every single word — <strong>you are literally one of the most amazing humans alive</strong> 🌟<br><br>
+      You make the world so much brighter just by being in it. Your laugh? Iconic. Your heart? The biggest. Your vibe? Unmatched.<br><br>
+      On your worst days, just remember: your bestie thinks you're absolutely incredible, always, no exceptions. 💜🩵💗
+    </p>
+    <span class="big-hearts">💗💜🩵🌸🌷💕</span>
+  </div>
+
+  <div class="no-msg" id="noMsg">
+    <p>Okay okay… but just know I was gonna say something really really sweet 🥺💗<br>The door is open whenever you're ready bestie!</p>
+  </div>
+
+  <div class="footer-hearts">🌸 💗 💜 🩵 🌷</div>
+</div>
+
+<script>
+  function showYes() {
+    document.getElementById('noMsg').classList.remove('show');
+    document.getElementById('yesMsg').classList.remove('show');
+    void document.getElementById('yesMsg').offsetWidth; // restart animation
+    document.getElementById('yesMsg').classList.add('show');
+  }
+  function showNo() {
+    document.getElementById('yesMsg').classList.remove('show');
+    document.getElementById('noMsg').classList.remove('show');
+    void document.getElementById('noMsg').offsetWidth;
+    document.getElementById('noMsg').classList.add('show');
+  }
+</script>
+</body>
+</html>
